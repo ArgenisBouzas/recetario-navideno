@@ -2,10 +2,10 @@
 
 Histórico anual de las comidas navideñas (24, 31 y hallacas): recetas, cantidades, ingredientes, precios (USD a tasa BCV y USDT), fotos y reportes.
 
-> **Estado:** Módulo 1 (DB + API) listo. Frontend en los módulos siguientes.
+> **Estado:** Módulos 1 (DB + API), 2 (recetas) y 3 (eventos, ingredientes y fotos) listos. Siguientes: reportes y gráficos, lista de compras, PWA y pulido.
 
 ## Stack
-Hono (Vercel Function única en `/api`) · Drizzle ORM · Neon Postgres · Vercel Blob · Zod · React + Vite + TS (próximos módulos)
+Hono (Vercel Function única en `/api`) · Drizzle ORM · Neon Postgres · Vercel Blob · Zod · React 18 + Vite + TypeScript + Tailwind v4 + TanStack Query + Zustand + React Hook Form
 
 ## Variables de entorno
 | Variable | Para qué |
@@ -35,7 +35,7 @@ git push -u origin main
 
 ### 4. Desplegar en Vercel
 1. https://vercel.com/new → importa el repo de GitHub.
-2. Framework: *Vite* (cuando exista el frontend; con solo la API déjalo en *Other*).
+2. Framework: *Vite* (build `npm run build`, salida `dist`).
 3. En *Environment Variables* agrega `DATABASE_URL`, `APP_PASSWORD` (y `BLOB_READ_WRITE_TOKEN` al conectar Blob).
 4. Deploy. `vercel.json` ya redirige `/api/*` a la función y el resto al SPA.
 5. Prueba: `https://TU-APP.vercel.app/api/health` → `{"ok":true}`.
@@ -50,10 +50,12 @@ npm run db:seed        # 4 recetas estándar + catálogo base de ingredientes
 Tras cambiar `db/schema.ts`: `npm run db:generate` y luego `npm run db:migrate`.
 
 ## Desarrollo local
+En dos terminales:
 ```bash
 npm run dev:api        # API en http://localhost:3001/api
-curl -H "x-app-password: TU_PASSWORD" http://localhost:3001/api/recipes
+npm run dev            # frontend en http://localhost:5173 (proxy /api -> 3001)
 ```
+Al abrir la app te pide la contraseña (`APP_PASSWORD`). `npm run typecheck` valida frontend y backend.
 
 ## Notas de diseño
 - Las cantidades se guardan en **unidad base** (g, ml, unidad); `shared/units.ts` convierte y formatea (3800 g → 3,8 kg).

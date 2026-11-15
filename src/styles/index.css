@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #F8F5F0;
+  --surface: #FFFFFF;
+  --ink: #2B2420;
+  --muted: #6F6259;
+  --line: #E4DCCB;
+  --accent: #8B0000;
+  --accent-ink: #FFFFFF;
+  --sidebar: #8B0000;
+}
+.dark {
+  --bg: #0B1F18;
+  --surface: #12302A;
+  --ink: #F3EDE0;
+  --muted: #B3A995;
+  --line: #2C4A40;
+  --accent: #D4A62A;
+  --accent-ink: #1A1205;
+  --sidebar: #0F3D2E;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-sidebar: var(--sidebar);
+  --color-vino: #8B0000;
+  --color-pino: #0F3D2E;
+  --color-oro: #C9A227;
+  --color-crema: #F8F5F0;
+  --color-rojo: #D81E1E;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); }
+h1, h2, h3 { font-family: var(--font-serif); }
+
+/* Marco dorado de doble filete: el único adorno fuerte; el resto queda sobrio */
+.marco-oro {
+  background: var(--surface);
+  border: 1px solid #C9A227;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgb(60 30 20 / .06), 0 8px 24px -12px rgb(60 30 20 / .18), inset 0 0 0 3px var(--surface), inset 0 0 0 4px rgb(201 162 39 / .35);
+}
+.dark .marco-oro { box-shadow: 0 8px 24px -12px rgb(0 0 0 / .6), inset 0 0 0 3px var(--surface), inset 0 0 0 4px rgb(201 162 39 / .3); }
+
+.markdown { line-height: 1.75; font-family: var(--font-serif); font-size: 1.02rem; max-width: 68ch; }
+.markdown h1, .markdown h2, .markdown h3 { margin: 1.4em 0 .5em; line-height: 1.25; }
+.markdown h2 { font-size: 1.4rem; } .markdown h3 { font-size: 1.15rem; }
+.markdown ul { list-style: disc; padding-left: 1.4em; } .markdown ol { list-style: decimal; padding-left: 1.4em; }
+.markdown li { margin: .25em 0; } .markdown p { margin: .7em 0; }
+.markdown a { color: var(--accent); text-decoration: underline; }
+.markdown blockquote { border-left: 3px solid #C9A227; padding-left: 1em; color: var(--muted); }
+
+@keyframes caer { to { transform: translate3d(var(--dx), 105vh, 0); } }
+.copo { position: absolute; top: -10px; border-radius: 50%; background: #fff; animation: caer linear infinite; }
+.dark .copo { opacity: .8; }
+@media (prefers-reduced-motion: reduce) { .copo { display: none; } }
+
+:focus-visible { outline: 2px solid #C9A227; outline-offset: 2px; }

@@ -9,7 +9,7 @@ import {
 } from '../../shared/schemas';
 import { toBase } from '../../shared/units';
 
-const { recipeEvents, recipes, events, recipeIngredients, ingredients, preciosHistoricos } = schema;
+const { recipeEvents, recipes, events, recipeIngredients, ingredients, preciosHistoricos, media, mediaLinks } = schema;
 export const recipeEventsRoute = new Hono();
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -60,7 +60,11 @@ recipeEventsRoute.get('/:id{[0-9]+}', async (c) => {
     .innerJoin(ingredients, eq(ingredients.id, recipeIngredients.ingredientId))
     .where(eq(recipeIngredients.recipeEventId, id))
     .orderBy(ingredients.nombre);
-  return c.json({ ...re, ingredientes: items });
+  const imagenes = await db
+    .select({ id: media.id, url: media.url, anio: media.anio })
+    .from(mediaLinks).innerJoin(media, eq(media.id, mediaLinks.mediaId))
+    .where(eq(mediaLinks.recipeEventId, id));
+  return c.json({ ...re, ingredientes: items, imagenes });
 });
 
 // Instancias anteriores de la misma receta (años pasados) para usar como plantilla

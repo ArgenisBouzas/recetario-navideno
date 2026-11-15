@@ -52,6 +52,7 @@ recipesRoute.get('/:id{[0-9]+}', async (c) => {
     db
       .select({
         recipeEventId: recipeEvents.id,
+        eventId: events.id,
         anio: events.anio,
         evento: events.nombre,
         fecha: events.fecha,

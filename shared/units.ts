@@ -39,3 +39,13 @@ export function extractYouTubeId(url: string): string | null {
   } catch { /* URL inválida */ }
   return null;
 }
+
+/** Inverso de toBase para mostrar en formularios: 3800 g -> {3.8, 'kg'}. */
+export function fromBase(base: number, unidadBase: UnidadBase): { cantidad: number; unidad: UnidadEntrada } {
+  const r = (n: number) => Math.round(n * 1000) / 1000;
+  if (unidadBase === 'g') return base >= 1000 ? { cantidad: r(base / 1000), unidad: 'kg' } : { cantidad: r(base), unidad: 'g' };
+  if (unidadBase === 'ml') return base >= 1000 ? { cantidad: r(base / 1000), unidad: 'l' } : { cantidad: r(base), unidad: 'ml' };
+  return { cantidad: r(base), unidad: 'unidad' };
+}
+
+export const UNIDADES_POR_BASE: Record<UnidadBase, UnidadEntrada[]> = { g: ['kg', 'g'], ml: ['l', 'ml'], unidad: ['unidad'] };
